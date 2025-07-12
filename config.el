@@ -22,14 +22,10 @@
 ;; Nerdfonts requires us to run: M-x nerd-icons-install-fonts
 
 ;; --- UI ---
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-;; (setq doom-theme 'doom-one)
-;; Optional: Configure theme options
+;; Theme
 (setq doom-theme 'doom-kanso)
 
+;; Theme options
 (setq doom-kanso-brighter-comments nil
       doom-kanso-brighter-modeline nil
       doom-kanso-padded-modeline t)
@@ -37,7 +33,7 @@
 (add-hook! '+doom-dashboard-mode-hook
   (setq-local line-spacing 0.2))
 
-
+;; Line numbers
 (setq display-line-numbers-type 'relative)
 
 ;; Remove exit confirmation message
@@ -49,6 +45,96 @@
 (setq org-directory "~/org/")
 
 ;; Niceties
+;; ---------------------------------------------------------------------
+;; Performance optimizations
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ; 1mb
+
+;; Better defaults
+(setq-default
+ delete-by-moving-to-trash t     ; Delete files to trash
+ window-combination-resize t     ; Resize windows proportionally
+ x-stretch-cursor t)             ; Stretch cursor to glyph width
+
+;; Enhance search with Consult (Telescope-like)
+(after! consult
+  ;; Preview files while searching
+  (setq consult-preview-key 'any)
+  
+  ;; Custom search commands
+  (map! :leader
+        :desc "Search project with preview" "s P" #'consult-ripgrep
+        :desc "Search file with preview" "s f" #'consult-line
+        :desc "Find file recursively" "f F" #'consult-find))
+
+;; Avy for quick navigation
+(after! avy
+  (setq avy-all-windows t
+        avy-all-windows-alt nil
+        avy-timeout-seconds 0.3))
+
+;; Better completion
+(after! company
+  (setq company-idle-delay 0.2
+        company-minimum-prefix-length 2
+        company-show-quick-access t))
+
+;; Treemacs auto-open for projects
+(after! treemacs
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-git-mode 'deferred))
+
+;; Git-gutter configuration
+(after! git-gutter
+  (global-git-gutter-mode +1))
+
+;; Which-key faster
+(after! which-key
+  (setq which-key-idle-delay 0.5))
+
+;; Better window management
+(map! :leader
+      :desc "Toggle window zoom" "w m" #'doom/window-maximize-toggle
+      :desc "Swap windows" "w x" #'ace-swap-window)
+
+;; Magit improvements
+(after! magit
+  (setq magit-diff-refine-hunk 'all)
+  (magit-todos-mode 1))
+
+;; ---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ;; ASCII Logo
