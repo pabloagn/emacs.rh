@@ -15,12 +15,12 @@ upgrade:
     doom upgrade
 
 # Clean up old packages and build artifacts
-clean:
-    doom clean
+# clean:
+#     doom clean
 
 # Purge and reinstall everything (nuclear option)
 purge:
-    doom purge
+    doom gc
     doom install
     doom sync
 

@@ -1,6 +1,17 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+;; Required
+(package! corfu-terminal)
+(package! ef-themes)
+(package! git-gutter-fringe)
+(package! highlight-indent-guides)
+(package! rainbow-delimiters)
+(package! all-the-icons-dired)
+;; (package! copilot :recipe (:host github :repo "zerolfx/copilot.el"))
+(package! undo-tree)
+(package! deadgrep)
+
 ;; Enhanced search and navigation
 (package! avy)                    ; Jump to visible text quickly
 (package! deadgrep)              ; Fast ripgrep interface
@@ -13,8 +24,8 @@
 
 ;; Code intelligence
 (package! eglot)                 ; Lightweight LSP client (alternative to lsp-mode)
-(package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+;; (package! copilot
+;;   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 
 ;; UI enhancements
 (package! all-the-icons-dired)   ; Icons in dired
