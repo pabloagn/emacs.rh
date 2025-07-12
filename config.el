@@ -3,7 +3,7 @@
 ;; NOTE:
 ;; Do not need to run 'doom
 ;; sync' after modifying this file!
-
+(add-to-list 'custom-theme-load-path "~/.config/doom/themes/")
 ;; --- Identity ---
 (setq user-full-name "Pablo Aguirre"
       user-mail-address "pabloaguirrenck@protonmail.ch")
@@ -27,7 +27,15 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
-(setq doom-theme 'kanso)
+;; Optional: Configure theme options
+(setq doom-theme 'doom-kanso)
+
+(setq doom-kanso-brighter-comments nil
+      doom-kanso-brighter-modeline nil
+      doom-kanso-padded-modeline t)
+
+(add-hook! '+doom-dashboard-mode-hook
+  (setq-local line-spacing 0.2))
 
 
 (setq display-line-numbers-type 'relative)
@@ -42,6 +50,61 @@
 
 ;; Niceties
 
+
+;; ASCII Logo
+;; ---------------------------------------------------------------------
+;; Define your custom ASCII art
+;; TODO: Fine-tune this obviously
+;; (defun my-doom-dashboard-header ()
+;;   (let* ((banner '("                                                    "
+;;                    "    ██████╗ ██╗  ██╗ ██████╗ ██████╗ ██╗██╗   ██╗███╗   ███╗"
+;;                    "    ██╔══██╗██║  ██║██╔═══██╗██╔══██╗██║██║   ██║████╗ ████║"
+;;                    "    ██████╔╝███████║██║   ██║██║  ██║██║██║   ██║██╔████╔██║"
+;;                    "    ██╔══██╗██╔══██║██║   ██║██║  ██║██║██║   ██║██║╚██╔╝██║"
+;;                    "    ██║  ██║██║  ██║╚██████╔╝██████╔╝██║╚██████╔╝██║ ╚═╝ ██║"
+;;                    "    ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝ ╚═════╝ ╚═╝     ╚═╝"
+;;                    "                                                    "
+;;                    "                  ▓▓▓▓▓▓▓▓▓  DOOM  ▓▓▓▓▓▓▓▓▓                "
+;;                    "                                                    "))
+;;          (longest-line (apply #'max (mapcar #'length banner))))
+;;     (put-text-property
+;;      (point)
+;;      (dolist (line banner (point))
+;;        (insert (+doom-dashboard--center
+;;                 +doom-dashboard--width
+;;                 (concat line (make-string (max 0 (- longest-line (length line))) 32)))
+;;                "\n"))
+;;      'face 'doom-dashboard-banner)))
+;;
+;; ;; Set it as your dashboard header
+;; (setq +doom-dashboard-ascii-banner-fn #'my-doom-dashboard-header)
+
+;; --- Clipboard ---
+(setq x-select-enable-clipboard t)
+(setq select-enable-clipboard t)
+(setq x-select-enable-primary t)
+(setq select-enable-primary t)
+
+;; Use wl-copy/wl-paste for Wayland
+(when (getenv "WAYLAND_DISPLAY")
+  (setq wl-copy-process nil)
+  (defun wl-copy (text)
+    (setq wl-copy-process (make-process :name "wl-copy"
+                                        :buffer nil
+                                        :command '("wl-copy" "-f" "-n")
+                                        :connection-type 'pipe))
+    (process-send-string wl-copy-process text)
+    (process-send-eof wl-copy-process))
+  
+  (defun wl-paste ()
+    (if (and wl-copy-process (process-live-p wl-copy-process))
+        nil ; should return nil if we're the current paste owner
+      (shell-command-to-string "wl-paste -n | tr -d '\r'")))
+  
+  (setq interprogram-cut-function 'wl-copy)
+  (setq interprogram-paste-function 'wl-paste))
+
+;; ---------------------------------------------------------------------
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.

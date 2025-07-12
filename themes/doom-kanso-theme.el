@@ -1,5 +1,5 @@
 ;;; doom-kanso-theme.el --- A dark theme based on the Kanso Neovim theme -*- lexical-binding: t; no-byte-compile: t; -*-
-;;
+;; TODO:
 ;; Author: Your Name <your.email@example.com>
 ;; Created: January 2025
 ;; Source: https://github.com/yourusername/kanso
@@ -12,7 +12,6 @@
 ;;; Code:
 
 (require 'doom-themes)
-
 
 ;;
 ;;; Variables
@@ -42,8 +41,6 @@ Can be an integer to determine the exact padding."
   :group 'doom-kanso-theme
   :type '(choice integer boolean))
 
-
-;;
 ;;; Theme definition
 
 (def-doom-theme doom-kanso
@@ -51,7 +48,7 @@ Can be an integer to determine the exact padding."
 
   ;; name        default   256         16
   ((bg         '("#090E13" "black"     "black"        )) ;; zen0
-   (bg-alt     '("#1C1E25" "#1c1e25"   "brightblack"  )) ;; zen1
+   (bg-alt     '("#090E13" "#1c1e25"   "brightblack"  )) ;; zen1
    (base0      '("#0d0c0c" "#0d0c0c"   "black"        )) ;; darker variant
    (base1      '("#1C1E25" "#1e1e1e"   "brightblack"  )) ;; zen1
    (base2      '("#22262D" "#262626"   "brightblack"  )) ;; zen2/mist0
@@ -78,7 +75,7 @@ Can be an integer to determine the exact padding."
    (dark-cyan  '("#6A9589" "#5f8787"   "cyan"         )) ;; zenAqua1
 
    ;; Kanso specific colors
-   (kanso-red     '("#E46876" "#ff5f87" "brightred"    )) ;; zenRed
+   (kanso-red     '("#C34043" "#ff5f87" "brightred"    )) ;; zenRed
    (kanso-green   '("#87a987" "#87af87" "green"        )) ;; inkGreen
    (kanso-yellow  '("#DCA561" "#d7af5f" "brightyellow" )) ;; autumnYellow/roninYellow
    (kanso-blue2   '("#8ba4b0" "#87afd7" "blue"         )) ;; inkBlue2
@@ -132,16 +129,23 @@ Can be an integer to determine the exact padding."
 
   ;;;; Base theme face overrides
   (((line-number &override) :foreground base5)
-   ((line-number-current-line &override) :foreground base7)
-   ((font-lock-comment-face &override)
-    :background (if doom-kanso-comment-bg (doom-lighten bg 0.05) 'unspecified))
-   (mode-line
-    :background modeline-bg :foreground modeline-fg
-    :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg)))
-   (mode-line-inactive
-    :background modeline-bg-inactive :foreground modeline-fg-alt
-    :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive)))
-   (mode-line-emphasis :foreground (if -modeline-bright base8 highlight))
+ ((line-number-current-line &override) :foreground base7)
+ ((font-lock-comment-face &override)
+  :background (if doom-kanso-comment-bg (doom-lighten bg 0.05) 'unspecified))
+ (mode-line
+  :background modeline-bg :foreground modeline-fg
+  :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg)))
+ (mode-line-inactive
+  :background modeline-bg-inactive :foreground modeline-fg-alt
+  :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive)))
+ (mode-line-emphasis :foreground (if -modeline-bright base8 highlight))
+
+ (doom-dashboard-banner :foreground kanso-red)      ;; Already there!
+ (doom-dashboard-menu-title :foreground fg)         ;; Menu items
+ (doom-dashboard-menu-desc :foreground base5)       ;; Shortcuts
+ (doom-dashboard-footer :foreground base5)          ;; Footer text
+ (doom-dashboard-loaded :foreground base6)          ;; Loaded modules text
+ (doom-dashboard-footer-icon :foreground base5)     ;; Footer icons
 
    ;;;; company
    (company-tooltip :background base2)
